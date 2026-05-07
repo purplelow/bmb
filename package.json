@@ -9,16 +9,35 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@carbon/icons-react": "^11.79.0",
+    "@carbon/react": "^1.106.0",
+    "@carbon/styles": "^1.105.0",
+    "@ibm/plex": "^6.4.1",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
     "next": "16.2.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sass": "^1.99.0",
+    "tailwind-merge": "^3.5.0",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.5.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.2.4",
     "typescript": "^5"
   }
 }

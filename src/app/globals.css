@@ -1,49 +1,139 @@
+/* ── Pretendard 폰트 (@import는 최상단에) ─────────────────────── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* ── Design Tokens (레이어 밖 – 변수는 유틸리티와 충돌 없음) ──── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-brand:         #ff6b35;
+  --color-brand-light:   #ff8c5a;
+  --color-brand-dark:    #e8521e;
+  --color-brand-surface: #fff3ee;
+
+  --color-bg:        #f7f6f3;
+  --color-bg-card:   #ffffff;
+  --color-bg-input:  #f2f1ee;
+
+  --color-text-primary:   #1a1814;
+  --color-text-secondary: #6b6560;
+  --color-text-muted:     #b3ada6;
+  --color-text-inverse:   #ffffff;
+
+  --color-border:        #e8e4de;
+  --color-border-strong: #cec8c0;
+
+  --color-success: #2da44e;
+  --color-warning: #f5a623;
+  --color-error:   #d73a49;
+
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.10);
+
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-full: 9999px;
+
+  --transition:      all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --header-height:     64px;
+  --bottom-nav-height: 72px;
+  --max-w:             480px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
+/* ── Base: 요소 기본 스타일 (@layer base > @layer utilities 우선순위 낮음) */
+@layer base {
   html {
-    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family:
+      'Pretendard Variable', 'Pretendard',
+      -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100dvh;
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  img { display: block; max-width: 100%; }
+  a   { color: inherit; text-decoration: none; }
+  button { cursor: pointer; border: none; background: none; font: inherit; }
+  input, textarea { font: inherit; }
+}
+
+/* ── Components: 재사용 클래스 (@layer components > @layer base, < @layer utilities) */
+@layer components {
+  .container {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .scroll-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .scroll-row::-webkit-scrollbar { display: none; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 34px;
+    padding: 0 16px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--color-bg-input);
+    color: var(--color-text-secondary);
+    border: 1.5px solid transparent;
+    transition: var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .chip--active {
+    background: var(--color-brand);
+    color: #fff;
+    border-color: var(--color-brand);
+    font-weight: 700;
+  }
+
+  .divider       { height: 1px; background: var(--color-border); }
+  .divider-thick { height: 8px; background: var(--color-bg-input); }
+}
+
+/* ── Utilities: 헬퍼 클래스 (@layer utilities – 최고 우선순위) ─── */
+@layer utilities {
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .pt-safe { padding-top:    env(safe-area-inset-top);    }
+
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
