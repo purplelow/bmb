@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Eye, EyeOff, Check } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { createClient } from '@/lib/supabase/client';
 
 export default function SignupPage() {
   const router = useRouter();
-  const login = useAuthStore((s) => s.login);
+  const initialize = useAuthStore((s) => s.initialize);
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
@@ -18,13 +19,21 @@ export default function SignupPage() {
   const [showPw, setShowPw] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) { setStep(2); return; }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 900));
-    login({ id: '1', email, name, avatar: '' });
+    setError('');
+    const supabase = createClient();
+    const { error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name } },
+    });
+    if (authError) { setError(authError.message); setLoading(false); return; }
+    await initialize();
     router.push('/');
   };
 
@@ -164,6 +173,10 @@ export default function SignupPage() {
           )}
 
           <div className="flex-1" />
+
+          {error && (
+            <p className="text-[13px] text-red-500 font-medium text-center">{error}</p>
+          )}
 
           <button
             type="submit"

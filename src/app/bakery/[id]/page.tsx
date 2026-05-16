@@ -149,7 +149,7 @@ export default function BakeryDetailPage() {
 
           {/* ── Menu Tab ─── */}
           <Tabs.Content value="menu" className="py-2 outline-none">
-            {bakery.menu.map((item) => (
+            {(bakery.menu ?? []).map((item) => (
               <div key={item.id} className="flex gap-3.5 p-3.5 px-5 border-b border-border items-center">
                 <div className="relative w-[76px] h-[76px] shrink-0">
                   <Image src={item.image} alt={item.name} fill className="object-cover rounded-xl" />
@@ -211,7 +211,7 @@ export default function BakeryDetailPage() {
               </div>
               <div className="flex-1">
                 {[5,4,3,2,1].map((s) => {
-                  const count = bakery.reviews.filter(r => r.rating === s).length || (s === 5 ? 8 : s === 4 ? 3 : 1);
+                  const count = (bakery.reviews ?? []).filter(r => r.rating === s).length || (s === 5 ? 8 : s === 4 ? 3 : 1);
                   const pct = Math.min(100, (count / bakery.reviewCount) * 100 * 6);
                   return (
                     <div key={s} className="flex items-center gap-2 mb-1">
@@ -226,7 +226,7 @@ export default function BakeryDetailPage() {
             </div>
 
             {/* Reviews */}
-            {bakery.reviews.map((review) => (
+            {(bakery.reviews ?? []).map((review) => (
               <div key={review.id} className="p-4 px-5 border-b border-border">
                 <div className="flex items-center gap-2.5 mb-2.5">
                   <Avatar.Root className="relative w-9 h-9 rounded-full overflow-hidden">

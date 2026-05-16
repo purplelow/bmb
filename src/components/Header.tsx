@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Search, User, Heart, ShoppingBag } from 'lucide-react';
-import { useAuthStore } from '@/store/useAuthStore';
+import React from "react";
+import Link from "next/link";
+import { Search, User, Heart, ShoppingBag } from "lucide-react";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export const Header = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -12,7 +12,7 @@ export const Header = () => {
     <header className="glass fixed top-0 w-full z-50 h-16 flex items-center px-6 transition-all duration-300">
       <div className="container flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold tracking-tight text-gradient">BBM</span>
+          <span className="text-2xl font-bold tracking-tight text-gradient">BMB</span>
           <span className="text-sm font-medium text-secondary hidden sm:block">Bakery Box Market</span>
         </Link>
 
@@ -39,7 +39,10 @@ export const Header = () => {
               </div>
             </Link>
           ) : (
-            <Link href="/login" className="flex items-center gap-2 text-sm font-semibold text-accent-primary border border-accent-primary px-4 py-1.5 rounded-full hover:bg-accent-primary hover:text-white transition-all">
+            <Link
+              href="/login"
+              className="flex items-center gap-2 text-sm font-semibold text-accent-primary border border-accent-primary px-4 py-1.5 rounded-full hover:bg-accent-primary hover:text-white transition-all"
+            >
               Login
             </Link>
           )}

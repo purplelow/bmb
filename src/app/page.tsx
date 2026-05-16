@@ -37,7 +37,7 @@ function Intro({ onDone }: { onDone: () => void }) {
         transition={{ delay: 0.3, duration: 0.5 }}
         className="text-center"
       >
-        <p className="text-[28px] font-extrabold text-white tracking-[-0.5px]">BBM</p>
+        <p className="text-[28px] font-extrabold text-white tracking-[-0.5px]">BMB</p>
         <p className="text-[13px] text-white/50 mt-1">서울 최고의 베이커리를 발견하세요</p>
       </motion.div>
       <motion.div

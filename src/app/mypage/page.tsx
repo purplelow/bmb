@@ -1,17 +1,14 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import {
-  Heart, ChevronRight, Star, Bell, Shield,
-  HelpCircle, LogOut, Settings, Bookmark, MapPin,
-} from 'lucide-react';
-import { useAuthStore } from '@/store/useAuthStore';
-import { useBakeryStore } from '@/store/useBakeryStore';
-import { BottomNav } from '@/components/BottomNav';
-import * as Avatar from '@radix-ui/react-avatar';
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Heart, ChevronRight, Star, Bell, Shield, HelpCircle, LogOut, Settings, Bookmark, MapPin } from "lucide-react";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useBakeryStore } from "@/store/useBakeryStore";
+import { BottomNav } from "@/components/BottomNav";
+import * as Avatar from "@radix-ui/react-avatar";
 
 function StatPill({ value, label }: { value: number | string; label: string }) {
   return (
@@ -22,22 +19,38 @@ function StatPill({ value, label }: { value: number | string; label: string }) {
   );
 }
 
-function MenuRow({ icon, label, badge, href, danger }: {
-  icon: React.ReactNode; label: string; badge?: string; href?: string; danger?: boolean;
+function MenuRow({
+  icon,
+  label,
+  badge,
+  href,
+  danger,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  badge?: string;
+  href?: string;
+  danger?: boolean;
 }) {
   const Inner = (
-    <div className={`flex items-center p-[15px] px-5 border-b border-border ${danger ? 'text-status-error' : 'text-text-primary'}`}>
-      <div className={`mr-3.5 ${danger ? 'text-status-error' : 'text-text-secondary'}`}>{icon}</div>
+    <div
+      className={`flex items-center p-[15px] px-5 border-b border-border ${danger ? "text-status-error" : "text-text-primary"}`}
+    >
+      <div className={`mr-3.5 ${danger ? "text-status-error" : "text-text-secondary"}`}>{icon}</div>
       <span className="flex-1 text-[15px] font-medium">{label}</span>
       {badge && (
-        <span className="text-[11px] font-bold text-brand bg-brand-surface px-2 py-0.5 rounded-md mr-2">
-          {badge}
-        </span>
+        <span className="text-[11px] font-bold text-brand bg-brand-surface px-2 py-0.5 rounded-md mr-2">{badge}</span>
       )}
       {!danger && <ChevronRight size={16} className="text-text-muted" />}
     </div>
   );
-  return href ? <Link href={href} className="block">{Inner}</Link> : <button className="w-full text-left">{Inner}</button>;
+  return href ? (
+    <Link href={href} className="block">
+      {Inner}
+    </Link>
+  ) : (
+    <button className="w-full text-left">{Inner}</button>
+  );
 }
 
 export default function MyPage() {
@@ -50,16 +63,19 @@ export default function MyPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-[100dvh] bg-bg flex flex-col items-center justify-center gap-5 p-6">
-        <div className="w-20 h-20 rounded-full bg-brand-surface flex items-center justify-center text-[36px]">
-          🥐
-        </div>
+        <div className="w-20 h-20 rounded-full bg-brand-surface flex items-center justify-center text-[36px]">🥐</div>
         <div className="text-center">
           <h2 className="text-[22px] font-extrabold mb-2">로그인이 필요해요</h2>
           <p className="text-[14px] text-text-secondary leading-relaxed">
-            로그인하고 찜한 베이커리와<br />나의 리뷰를 확인하세요
+            로그인하고 찜한 베이커리와
+            <br />
+            나의 리뷰를 확인하세요
           </p>
         </div>
-        <Link href="/login" className="w-full max-w-[280px] h-[52px] bg-brand text-white rounded-2xl text-[16px] font-bold flex items-center justify-center">
+        <Link
+          href="/login"
+          className="w-full max-w-[280px] h-[52px] bg-brand text-white rounded-2xl text-[16px] font-bold flex items-center justify-center"
+        >
           로그인 / 회원가입
         </Link>
         <BottomNav />
@@ -71,15 +87,11 @@ export default function MyPage() {
     <div className="min-h-[100dvh] bg-bg pb-20">
       {/* Profile Header */}
       <div className="bg-white pt-14 border-b border-border">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="pt-5 px-5"
-        >
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="pt-5 px-5">
           <div className="flex items-center gap-4 mb-5">
             {/* Avatar */}
             <Avatar.Root className="relative w-[68px] h-[68px] rounded-full overflow-hidden shrink-0 shadow-[0_4px_16px_rgba(255,107,53,0.35)]">
-              <Avatar.Image src={user?.avatar} alt={user?.name || ''} className="w-full h-full object-cover" />
+              <Avatar.Image src={user?.avatar} alt={user?.name || ""} className="w-full h-full object-cover" />
               <Avatar.Fallback className="w-full h-full bg-gradient-to-br from-brand to-[#ff9a70] flex items-center justify-center text-[28px] font-black text-white">
                 {user?.name?.charAt(0).toUpperCase()}
               </Avatar.Fallback>
@@ -93,7 +105,10 @@ export default function MyPage() {
                 </span>
               </div>
             </div>
-            <Link href="#" className="w-9 h-9 rounded-[10px] bg-bg-input flex items-center justify-center text-text-secondary">
+            <Link
+              href="#"
+              className="w-9 h-9 rounded-[10px] bg-bg-input flex items-center justify-center text-text-secondary"
+            >
               <Settings size={18} />
             </Link>
           </div>
@@ -124,12 +139,8 @@ export default function MyPage() {
         {favorites.length === 0 ? (
           <div className="py-8 px-5 text-center bg-white rounded-2xl border-[1.5px] border-dashed border-border">
             <p className="text-[32px] mb-2.5">🥐</p>
-            <p className="text-[14px] font-semibold text-text-secondary mb-1">
-              아직 찜한 베이커리가 없어요
-            </p>
-            <p className="text-[13px] text-text-muted">
-              마음에 드는 베이커리를 ❤️ 눌러 저장해보세요
-            </p>
+            <p className="text-[14px] font-semibold text-text-secondary mb-1">아직 찜한 베이커리가 없어요</p>
+            <p className="text-[13px] text-text-muted">마음에 드는 베이커리를 ❤️ 눌러 저장해보세요</p>
           </div>
         ) : (
           <div className="scroll-row -mx-5 px-5 pb-2">
@@ -163,13 +174,15 @@ export default function MyPage() {
         <div className="flex flex-col bg-white rounded-2xl overflow-hidden border border-border">
           {bakeries.slice(0, 3).map((b, i) => (
             <Link key={b.id} href={`/bakery/${b.id}`}>
-              <div className={`flex items-center gap-3 p-3 px-4 ${i < 2 ? 'border-b border-border' : ''}`}>
+              <div className={`flex items-center gap-3 p-3 px-4 ${i < 2 ? "border-b border-border" : ""}`}>
                 <div className="relative w-11 h-11 rounded-[10px] overflow-hidden shrink-0">
                   <Image src={b.image} alt={b.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[14px] font-semibold line-clamp-1">{b.nameKo}</p>
-                  <p className="text-[12px] text-text-muted">{b.location} · {b.distance}</p>
+                  <p className="text-[12px] text-text-muted">
+                    {b.location} · {b.distance}
+                  </p>
                 </div>
                 <div className="flex items-center gap-0.5 shrink-0">
                   <Star size={11} fill="#ffa826" stroke="none" />
@@ -191,7 +204,10 @@ export default function MyPage() {
 
       <div className="bg-white border-t-[8px] border-bg-input mt-2">
         <button
-          onClick={() => { logout(); router.push('/'); }}
+          onClick={() => {
+            logout();
+            router.push("/");
+          }}
           className="w-full text-left"
         >
           <div className="flex items-center p-[15px] px-5 text-status-error">
@@ -201,9 +217,7 @@ export default function MyPage() {
         </button>
       </div>
 
-      <p className="text-center text-[11px] text-text-muted py-5 pb-2">
-        BBM v1.0.0 · © 2026 Bakery Box Market
-      </p>
+      <p className="text-center text-[11px] text-text-muted py-5 pb-2">BMB v1.0.0 · © 2026 Bakery Box Market</p>
 
       <BottomNav />
     </div>
