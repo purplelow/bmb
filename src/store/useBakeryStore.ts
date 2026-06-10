@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { createClient } from '@/lib/supabase/client'
 
 export interface MenuItem {
   id: string
@@ -120,21 +121,29 @@ export const useBakeryStore = create<BakeryState>((set, get) => ({
 
   fetchBakeries: async (opts = {}) => {
     set({ loading: true })
-    const params = new URLSearchParams()
-    if (opts.category && opts.category !== '전체') params.set('category', opts.category)
-    if (opts.q) params.set('q', opts.q)
+    const supabase = createClient()
+    let query = supabase
+      .from('bakeries')
+      .select('*, menu_items(*)')
+      .order('rating', { ascending: false })
 
-    const res = await fetch(`/api/bakeries?${params}`)
-    const rows = await res.json()
+    if (opts.category && opts.category !== '전체') query = query.eq('category', opts.category)
+    if (opts.q) query = query.or(`name_ko.ilike.%${opts.q}%,name.ilike.%${opts.q}%`)
+
+    const { data } = await query
     const { favoriteIds } = get()
-    set({ bakeries: rows.map((r: Record<string, unknown>) => normalize(r, favoriteIds)), loading: false })
+    set({
+      bakeries: (data ?? []).map((r) => normalize(r as Record<string, unknown>, favoriteIds)),
+      loading: false,
+    })
   },
 
   fetchFavorites: async () => {
-    const res = await fetch('/api/favorites')
-    if (!res.ok) return
-    const data: { bakery_id: string }[] = await res.json()
-    const ids = new Set(data.map((f) => f.bakery_id))
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const { data } = await supabase.from('favorites').select('bakery_id').eq('user_id', user.id)
+    const ids = new Set((data ?? []).map((f) => f.bakery_id))
     set({ favoriteIds: ids, bakeries: get().bakeries.map((b) => ({ ...b, isFavorite: ids.has(b.id) })) })
   },
 
@@ -145,12 +154,16 @@ export const useBakeryStore = create<BakeryState>((set, get) => ({
     const { favoriteIds } = get()
     const isFav = favoriteIds.has(id)
     const next = new Set(favoriteIds)
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
     if (isFav) {
       next.delete(id)
-      fetch('/api/favorites', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bakery_id: id }) })
+      supabase.from('favorites').delete().eq('user_id', user.id).eq('bakery_id', id).then(() => {})
     } else {
       next.add(id)
-      fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bakery_id: id }) })
+      supabase.from('favorites').insert({ user_id: user.id, bakery_id: id }).then(() => {})
     }
     set({ favoriteIds: next, bakeries: get().bakeries.map((b) => ({ ...b, isFavorite: b.id === id ? !isFav : b.isFavorite })) })
   },

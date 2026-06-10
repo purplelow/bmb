@@ -45,3 +45,7 @@ next-env.d.ts
 
 # Build artifacts
 build_output.txt
+# Capacitor
+ios/App/Pods/
+android/.gradle/
+android/app/build/

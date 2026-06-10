@@ -6,9 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cap:sync": "npx cap sync",
+    "open:ios": "npx cap sync ios && npx cap open ios",
+    "open:android": "npx cap sync android && npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^7.6.5",
+    "@capacitor/camera": "^7.0.5",
+    "@capacitor/cli": "^7.6.5",
+    "@capacitor/core": "^7.6.5",
+    "@capacitor/geolocation": "^7.1.8",
+    "@capacitor/ios": "^7.6.5",
+    "@capacitor/push-notifications": "^7.0.6",
     "@carbon/icons-react": "^11.79.0",
     "@carbon/react": "^1.106.0",
     "@carbon/styles": "^1.105.0",
